@@ -1,18 +1,18 @@
 version: '3'
 services:
   db:
-    image: mysql:8.0.22
+    image: mysql:8.0.14
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    ports:
+      - "13306:3306"
     volumes:
-      - db_data:/var/lib/mysql
+      - ./.data/db:/var/lib/mysql
     networks:
-      - rails_docker_network
+      - test_api_docker_network
     environment:
       MYSQL_DATABASE: root
       MYSQL_ROOT_PASSWORD: password
-    command: --default-authentication-plugin=mysql_native_password
-    command:
-      - --sql-mode=NO_ENGINE_SUBSTITUTION
-    container_name: test_api_db_container
   web:
     build: .
     depends_on:
@@ -23,7 +23,7 @@ services:
     volumes:
       - .:/test_api
     networks:
-      - rails_docker_network
+      - test_api_docker_network
     ports:
       - "3000:3000"
     env_file:
@@ -34,5 +34,5 @@ volumes:
   db_data:
 
 networks:
-  rails_docker_network:
-    name: rails_docker_network
+  test_api_docker_network:
+    name: test_api_docker_network
