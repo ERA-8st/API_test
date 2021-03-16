@@ -32,5 +32,12 @@ module TestApi
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
     config.active_record.schema_format = :sql
+    config.generators do |g|
+      g.test_framework :rspec, 
+            view_specs: false, 
+            helper_specs: false, 
+            controller_specs: false, 
+            routing_specs: false
+    end
   end
 end
