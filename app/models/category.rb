@@ -1,6 +1,6 @@
 class Category < ApplicationRecord
 
-  varidates :name, :null => false
+  validates :name, presence: true
   has_many :ideas
 
 end
