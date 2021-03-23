@@ -11,9 +11,8 @@ class IdeasController < ApplicationController
     end
     if @ideas
       render 'index', formats: 'json', handlers: 'jbuilder'
-      # render status: 429
     else
-      render status: 429
+      render json: 404, status: 404
     end
   end
 
