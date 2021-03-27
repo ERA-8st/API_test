@@ -21,10 +21,12 @@ class IdeasController < ApplicationController
     if category.present?
       @idea = category.ideas.new(body: params[:body])
     else
-      new_category = Category.new(name: params[:category_name])
-      @idea = new_category.ideas.new(body: params[:body])
+      ActiveRecord::Base.transaction do
+        new_category = Category.new(name: params[:category_name])
+        @idea = new_category.ideas.new(body: params[:body])
+      end
     end
-    if @idea
+    if @idea.save
       render json: 201, status: 201
     else
       render json: 422, status: 422
